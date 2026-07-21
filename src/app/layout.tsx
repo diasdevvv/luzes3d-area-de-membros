@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import RegisterSW from "@/components/RegisterSW";
-import SiteAuth from "@/components/SiteAuth";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -51,9 +50,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-100">
         <RegisterSW />
-        <SiteAuth>
-          {children}
-        </SiteAuth>
+        {children}
       </body>
     </html>
   );

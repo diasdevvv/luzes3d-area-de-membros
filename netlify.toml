@@ -6,6 +6,9 @@ default_headers = []
 
 [functions]
   node_bundler = "esbuild"
+  included_files = []
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+  [plugins.inputs]
+  external_packages = ["jszip", "canvas-confetti", "lucide-react"]
