@@ -12,7 +12,7 @@ interface NavigationBarProps {
 export default function NavigationBar({ activeTab, setActiveTab, favoritesCount }: NavigationBarProps) {
   const tabs = [
     { id: 'home', label: 'Início', icon: Home },
-    { id: 'bonus', label: 'Bônus', icon: Gift, isVIP: true },
+    { id: 'bonus', label: 'Bônus', icon: Gift },
     { id: 'favorites', label: 'Favoritos', icon: Heart, badge: favoritesCount },
     { id: 'info', label: 'Sobre', icon: Info },
   ];

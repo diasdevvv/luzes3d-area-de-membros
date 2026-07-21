@@ -18,7 +18,7 @@ export default function Header({ onOpenLoginModal }: HeaderProps) {
     const email = localStorage.getItem('aether_user_email');
     if (isPremium === 'true') {
       setIsLoggedIn(true);
-      setUserEmail(email || 'Membro VIP');
+      setUserEmail(email || 'Membro');
     } else {
       setIsLoggedIn(false);
       setUserEmail('');
@@ -100,7 +100,7 @@ export default function Header({ onOpenLoginModal }: HeaderProps) {
             <div className="p-2 rounded-xl bg-zinc-950 border border-white/5 space-y-1">
               <div className="flex items-center gap-1 text-[9px] text-emerald-400 font-bold uppercase tracking-wider">
                 <CheckCircle2 className="w-3 h-3" />
-                Membro VIP Ativo
+                Membro Ativo
               </div>
               <p className="text-[10px] text-zinc-300 font-mono truncate">
                 {userEmail}

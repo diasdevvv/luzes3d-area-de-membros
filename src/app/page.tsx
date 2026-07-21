@@ -61,7 +61,7 @@ export default function HomeFeed() {
       window.dispatchEvent(new Event('auth-change'));
       setShowLoginModal(false);
     } else {
-      setLoginError('Código de acesso inválido. Utilize o código LUZ3D2526.');
+      setLoginError('Código de acesso incorreto. Verifique e tente novamente.');
     }
   };
 
@@ -170,12 +170,12 @@ export default function HomeFeed() {
                 LUZES 3D STL
               </h1>
               <span className="inline-block text-[10px] font-bold text-cyan-400 bg-cyan-950/80 border border-cyan-500/40 px-3 py-0.5 rounded-full tracking-widest font-mono mt-1 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
-                🔒 ÁREA DE MEMBROS VIP
+                🔒 ÁREA DE MEMBROS
               </span>
             </div>
 
             <p className="text-xs text-zinc-400 leading-relaxed max-w-xs mx-auto">
-              Bem-vindo! Digite seu e-mail e o código de acesso VIP para liberar a coleção completa de luminárias 3D.
+              Bem-vindo! Digite seu e-mail e o código de acesso para liberar a coleção completa de luminárias 3D.
             </p>
           </div>
 
@@ -197,11 +197,11 @@ export default function HomeFeed() {
 
             <div className="space-y-1.5">
               <label className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider block">
-                Código de Acesso VIP
+                Código de Acesso
               </label>
               <input
                 type="text"
-                placeholder="Ex: LUZ3D2526"
+                placeholder="CÓDIGO ENVIADO NO EMAIL DE COMPRA"
                 value={accessCode}
                 onChange={(e) => setAccessCode(e.target.value)}
                 required
@@ -224,7 +224,7 @@ export default function HomeFeed() {
             </button>
 
             <p className="text-[10px] text-zinc-500 font-mono text-center pt-2">
-              * Código de acesso VIP: <strong className="text-cyan-400">LUZ3D2526</strong>
+              CÓDIGO ENVIADO NO EMAIL DE COMPRA
             </p>
           </form>
         </div>
@@ -579,7 +579,7 @@ export default function HomeFeed() {
                 <KeyRound className="w-6 h-6" />
               </div>
               <h3 className="text-sm font-bold text-zinc-100 uppercase tracking-wider">
-                Área de Membros VIP
+                Área de Membros
               </h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
                 Digite seu e-mail e o código de acesso para entrar.
@@ -606,7 +606,7 @@ export default function HomeFeed() {
                 </label>
                 <input
                   type="text"
-                  placeholder="Ex: LUZ3D2526"
+placeholder="CÓDIGO ENVIADO NO EMAIL DE COMPRA"
                   value={accessCode}
                   onChange={(e) => setAccessCode(e.target.value)}
                   className="w-full h-10 bg-zinc-950 border border-white/10 rounded-xl px-3 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 transition-colors"
@@ -621,11 +621,11 @@ export default function HomeFeed() {
                 type="submit"
                 className="w-full h-10 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-zinc-950 font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer shadow-lg shadow-cyan-500/20 active:scale-95"
               >
-                Acessar Área VIP
+                Acessar Área
               </button>
 
               <p className="text-[9px] text-zinc-500 font-mono text-center">
-                * Código de acesso: <strong className="text-cyan-400">LUZ3D2526</strong>
+                CÓDIGO ENVIADO NO EMAIL DE COMPRA
               </p>
             </form>
           </div>

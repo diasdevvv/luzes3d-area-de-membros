@@ -355,7 +355,7 @@ export function BonusVIPSection({
         <div className="flex items-center gap-1.5">
           <Gift className="w-4 h-4 text-[#ff7f1a]" />
           <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-200 font-mono">
-            Bônus Exclusivos VIP
+            Bônus Exclusivos
           </h2>
         </div>
 
@@ -414,7 +414,7 @@ export function BonusVIPSection({
               </h3>
               <p className="text-[10px] text-zinc-400 leading-snug line-clamp-2">
                 {isSecretLocked 
-                  ? `Bônus VIP trancado temporariamente. Será liberado em ${formatTime(timeRemaining)}.` 
+                  ? `Bônus trancado temporariamente. Será liberado em ${formatTime(timeRemaining)}.` 
                   : 'Todos os arquivos separados e organizados em pastas no portal exclusivo.'}
               </p>
             </div>
@@ -1028,7 +1028,7 @@ export function BonusVIPSection({
             </div>
             
             <div className="space-y-1">
-              <h3 className="text-sm font-bold text-zinc-100">Bônus Secreto VIP Trancado</h3>
+              <h3 className="text-sm font-bold text-zinc-100">Bônus Secreto Trancado</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
                 Este portal exclusivo com mais de <strong className="text-cyan-400">+90.000 arquivos STL</strong> é liberado automaticamente 4 dias após seu primeiro acesso!
               </p>
