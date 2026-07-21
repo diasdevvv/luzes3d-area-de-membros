@@ -10,5 +10,3 @@ default_headers = []
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-  [plugins.inputs]
-  external_packages = ["jszip", "canvas-confetti", "lucide-react"]
