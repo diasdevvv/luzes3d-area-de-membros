@@ -9,4 +9,3 @@ default_headers = []
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-  enabled = true
