@@ -1,9 +1,12 @@
 [build]
-  command = "npm run build && npx next export"
-  publish = "out"
+  command = "npm run build"
+  publish = ".next"
 
 default_headers = []
 
-# Desabilita funções serverless do Next.js (pois é 100% estático)
 [functions]
   node_bundler = "esbuild"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+  enabled = true
