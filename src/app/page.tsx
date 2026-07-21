@@ -252,7 +252,7 @@ export default function HomeFeed() {
               {/* Hero Banner */}
               <div className="w-full relative aspect-[2.4/1] rounded-2xl overflow-hidden shadow-2xl border border-white/5 mb-6">
                 <Image
-                  src="/banner.png"
+                  src="/banner.webp"
                   alt="LUZES 3D STL Banner"
                   fill
                   priority
