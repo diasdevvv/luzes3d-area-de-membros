@@ -1,0 +1,170 @@
+solid LampModel
+  facet normal 0 0 -1
+    outer loop
+      vertex 0 0 0
+      vertex 7.500000000000002 12.990381056766578 0
+      vertex 15 0 0
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex 0 0 0
+      vertex -7.4999999999999964 12.99038105676658 0
+      vertex 7.500000000000002 12.990381056766578 0
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex 0 0 0
+      vertex -15 1.83697019872103e-15 0
+      vertex -7.4999999999999964 12.99038105676658 0
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex 0 0 0
+      vertex -7.500000000000007 -12.990381056766577 0
+      vertex -15 1.83697019872103e-15 0
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex 0 0 0
+      vertex 7.500000000000002 -12.990381056766578 0
+      vertex -7.500000000000007 -12.990381056766577 0
+    endloop
+  endfacet
+  facet normal 0 0 -1
+    outer loop
+      vertex 0 0 0
+      vertex 15 0 0
+      vertex 7.500000000000002 -12.990381056766578 0
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0 0 50
+      vertex 10.5 0 50
+      vertex 5.250000000000001 9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0 0 50
+      vertex 5.250000000000001 9.093266739736606 50
+      vertex -5.249999999999997 9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0 0 50
+      vertex -5.249999999999997 9.093266739736606 50
+      vertex -10.5 1.2858791391047208e-15 50
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0 0 50
+      vertex -10.5 1.2858791391047208e-15 50
+      vertex -5.250000000000004 -9.093266739736604 50
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0 0 50
+      vertex -5.250000000000004 -9.093266739736604 50
+      vertex 5.250000000000001 -9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 1
+    outer loop
+      vertex 0 0 50
+      vertex 5.250000000000001 -9.093266739736606 50
+      vertex 10.5 0 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 15 0 0
+      vertex 7.500000000000002 12.990381056766578 0
+      vertex 10.5 0 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 7.500000000000002 12.990381056766578 0
+      vertex 5.250000000000001 9.093266739736606 50
+      vertex 10.5 0 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 7.500000000000002 12.990381056766578 0
+      vertex -7.4999999999999964 12.99038105676658 0
+      vertex 5.250000000000001 9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex -7.4999999999999964 12.99038105676658 0
+      vertex -5.249999999999997 9.093266739736606 50
+      vertex 5.250000000000001 9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex -7.4999999999999964 12.99038105676658 0
+      vertex -15 1.83697019872103e-15 0
+      vertex -5.249999999999997 9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex -15 1.83697019872103e-15 0
+      vertex -10.5 1.2858791391047208e-15 50
+      vertex -5.249999999999997 9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex -15 1.83697019872103e-15 0
+      vertex -7.500000000000007 -12.990381056766577 0
+      vertex -10.5 1.2858791391047208e-15 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex -7.500000000000007 -12.990381056766577 0
+      vertex -5.250000000000004 -9.093266739736604 50
+      vertex -10.5 1.2858791391047208e-15 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex -7.500000000000007 -12.990381056766577 0
+      vertex 7.500000000000002 -12.990381056766578 0
+      vertex -5.250000000000004 -9.093266739736604 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 7.500000000000002 -12.990381056766578 0
+      vertex 5.250000000000001 -9.093266739736606 50
+      vertex -5.250000000000004 -9.093266739736604 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 7.500000000000002 -12.990381056766578 0
+      vertex 15 0 0
+      vertex 5.250000000000001 -9.093266739736606 50
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 15 0 0
+      vertex 10.5 0 50
+      vertex 5.250000000000001 -9.093266739736606 50
+    endloop
+  endfacet
+endsolid LampModel

@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --primary: #06b6d4;
+  --primary-glow: rgba(6, 182, 212, 0.15);
+  --border: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(20, 20, 25, 0.6);
+  --glass-bg: rgba(9, 9, 11, 0.8);
+  
+  /* Safe area custom properties fallback */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary-accent: var(--primary);
+  --color-card-dark: var(--card-bg);
+  --color-border-dark: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* iOS Safe Area Padding Utilities */
+.pt-safe {
+  padding-top: calc(var(--safe-top) + 0.5rem);
+}
+.pb-safe {
+  padding-bottom: calc(var(--safe-bottom) + 0.5rem);
+}
+.h-safe-screen {
+  height: calc(100vh - var(--safe-bottom) - var(--safe-top));
+}
+
+/* Premium UI Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+}
+
+/* Hide Scrollbar helper */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Shimmer Loading Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #18181b 25%, #2d2d30 50%, #18181b 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* Fade in for loaded images and 3D scenes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

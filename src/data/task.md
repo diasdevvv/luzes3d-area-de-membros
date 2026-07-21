@@ -1,0 +1,7 @@
+- [x] Criar o script de renomeação de pastas e geração de dados `src/data/rename-and-build.js`
+- [x] Executar o script `rename-and-build.js` para atualizar as pastas no disco e o arquivo `models.json`
+- [x] Atualizar a API de download (`src/app/api/download/[id]/route.ts`) para ler caminhos do novo `models.json` e lidar com a extensão `.3mf`
+- [x] Adaptar a página inicial (`src/app/page.tsx`) para exibir apenas a aba única "Luminárias Mais Vendidas", remover abas e navegação redundantes, e adicionar o formulário de login premium
+- [x] Adaptar a página de detalhes (`src/app/model/[slug]/page.tsx`) para lidar com arquivos 3MF e exibir botões dinâmicos de download
+- [x] Ajustar o `ThreeViewer.tsx` para tratar arquivos não-STL (3MF) de forma amigável
+- [x] Validar a compilação com `npx tsc --noEmit` e `npm run build`

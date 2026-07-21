@@ -1,0 +1,114 @@
+solid ArtisticModel
+  facet normal 1 1 1
+    outer loop
+      vertex 0 0 20
+      vertex 20 0 0
+      vertex 14 14 6
+    endloop
+  endfacet
+  facet normal 1 1 1
+    outer loop
+      vertex 0 0 20
+      vertex 14 14 6
+      vertex 0 20 0
+    endloop
+  endfacet
+  facet normal 1 1 -1
+    outer loop
+      vertex 20 0 0
+      vertex 0 20 0
+      vertex 14 14 6
+    endloop
+  endfacet
+  facet normal -1 1 1
+    outer loop
+      vertex 0 0 20
+      vertex 0 20 0
+      vertex -14 14 6
+    endloop
+  endfacet
+  facet normal -1 1 1
+    outer loop
+      vertex 0 0 20
+      vertex -14 14 6
+      vertex -20 0 0
+    endloop
+  endfacet
+  facet normal -1 1 -1
+    outer loop
+      vertex 0 20 0
+      vertex -20 0 0
+      vertex -14 14 6
+    endloop
+  endfacet
+  facet normal -1 -1 1
+    outer loop
+      vertex 0 0 20
+      vertex -20 0 0
+      vertex -14 -14 6
+    endloop
+  endfacet
+  facet normal -1 -1 1
+    outer loop
+      vertex 0 0 20
+      vertex -14 -14 6
+      vertex 0 -20 0
+    endloop
+  endfacet
+  facet normal -1 -1 -1
+    outer loop
+      vertex -20 0 0
+      vertex 0 -20 0
+      vertex -14 -14 6
+    endloop
+  endfacet
+  facet normal 1 -1 1
+    outer loop
+      vertex 0 0 20
+      vertex 0 -20 0
+      vertex 14 -14 6
+    endloop
+  endfacet
+  facet normal 1 -1 1
+    outer loop
+      vertex 0 0 20
+      vertex 14 -14 6
+      vertex 20 0 0
+    endloop
+  endfacet
+  facet normal 1 -1 -1
+    outer loop
+      vertex 0 -20 0
+      vertex 20 0 0
+      vertex 14 -14 6
+    endloop
+  endfacet
+  facet normal 1 1 -1
+    outer loop
+      vertex 0 0 -20
+      vertex 0 20 0
+      vertex 20 0 0
+    endloop
+  endfacet
+  facet normal -1 1 -1
+    outer loop
+      vertex 0 0 -20
+      vertex -20 0 0
+      vertex 0 20 0
+    endloop
+  endfacet
+  facet normal -1 -1 -1
+    outer loop
+      vertex 0 0 -20
+      vertex 0 -20 0
+      vertex -20 0 0
+    endloop
+  endfacet
+  facet normal 1 -1 -1
+    outer loop
+      vertex 0 0 -20
+      vertex 20 0 0
+      vertex 0 -20 0
+    endloop
+  endfacet
+endsolid ArtisticModel
