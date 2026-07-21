@@ -157,7 +157,7 @@ export default function HomeFeed() {
           <div className="text-center space-y-3">
             <div className="w-16 h-16 rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden shadow-2xl relative bg-zinc-900 mx-auto">
               <Image 
-                src="/logo.png" 
+                src="/logo.webp" 
                 alt="LUZES 3D STL Logo" 
                 fill 
                 className="object-cover"

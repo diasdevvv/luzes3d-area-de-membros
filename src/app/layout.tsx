@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     title: "LUZES 3D STL",
   },
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo.webp",
+    apple: "/logo.webp",
   }
 };
 

@@ -52,7 +52,7 @@ export default function Header({ onOpenLoginModal }: HeaderProps) {
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-lg border border-white/10 flex items-center justify-center overflow-hidden shadow-lg relative bg-zinc-900">
           <Image 
-            src="/logo.png" 
+            src="/logo.webp" 
             alt="LUZES 3D STL Logo" 
             fill 
             className="object-cover"
