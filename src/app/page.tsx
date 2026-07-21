@@ -142,13 +142,98 @@ export default function HomeFeed() {
     }, 450);
   };
 
-  const scrollToLogin = () => {
-    setActiveTab('home');
-    setTimeout(() => {
-      const premiumSection = document.getElementById('premium-section');
-      premiumSection?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
+  // DEDICATED LOGIN SCREEN (FULL APP GATE)
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen w-full bg-zinc-950 flex flex-col items-center justify-center p-4 relative overflow-hidden select-none">
+        {/* Glow Effects */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Main Login Card */}
+        <div className="w-full max-w-md glass-card rounded-3xl p-6 md:p-8 border border-white/10 bg-gradient-to-b from-zinc-900/90 to-zinc-950 shadow-2xl relative z-10 space-y-6">
+          
+          {/* Brand Header */}
+          <div className="text-center space-y-3">
+            <div className="w-16 h-16 rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden shadow-2xl relative bg-zinc-900 mx-auto">
+              <Image 
+                src="/logo.png" 
+                alt="LUZES 3D STL Logo" 
+                fill 
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            <div>
+              <h1 className="text-xl font-extrabold tracking-wider bg-gradient-to-r from-white via-zinc-200 to-cyan-400 bg-clip-text text-transparent uppercase">
+                LUZES 3D STL
+              </h1>
+              <span className="inline-block text-[10px] font-bold text-cyan-400 bg-cyan-950/80 border border-cyan-500/40 px-3 py-0.5 rounded-full tracking-widest font-mono mt-1 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+                🔒 ÁREA DE MEMBROS VIP
+              </span>
+            </div>
+
+            <p className="text-xs text-zinc-400 leading-relaxed max-w-xs mx-auto">
+              Bem-vindo! Digite seu e-mail e o código de acesso VIP para liberar a coleção completa de luminárias 3D.
+            </p>
+          </div>
+
+          {/* Login Form */}
+          <form onSubmit={handleLogin} className="space-y-4 pt-2">
+            <div className="space-y-1.5">
+              <label className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider block">
+                Seu E-mail
+              </label>
+              <input
+                type="email"
+                placeholder="exemplo@email.com"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                required
+                className="w-full h-11 bg-zinc-950 border border-white/10 rounded-xl px-4 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider block">
+                Código de Acesso VIP
+              </label>
+              <input
+                type="text"
+                placeholder="Ex: LUZ3D2526"
+                value={accessCode}
+                onChange={(e) => setAccessCode(e.target.value)}
+                required
+                className="w-full h-11 bg-zinc-950 border border-white/10 rounded-xl px-4 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all uppercase tracking-wider font-mono"
+              />
+            </div>
+
+            {loginError && (
+              <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/30 text-red-300 text-xs font-medium text-center animate-[fadeIn_0.2s_ease-out]">
+                ⚠️ {loginError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-zinc-950 text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer"
+            >
+              <KeyRound className="w-4 h-4 text-zinc-950" />
+              Entrar na Área de Membros →
+            </button>
+
+            <p className="text-[10px] text-zinc-500 font-mono text-center pt-2">
+              * Código de acesso VIP: <strong className="text-cyan-400">LUZ3D2526</strong>
+            </p>
+          </form>
+        </div>
+
+        {/* Floating Offline Toast Warning */}
+        <OfflineWarning />
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 w-full min-h-screen pb-32 bg-zinc-950 flex flex-col items-center select-none">
@@ -250,7 +335,7 @@ export default function HomeFeed() {
               {!debouncedSearch && (
                 <BasesSection
                   isLoggedIn={isLoggedIn}
-                  setShowLoginModal={() => scrollToLogin()}
+                  setShowLoginModal={() => setShowLoginModal(true)}
                 />
               )}
 
@@ -258,7 +343,7 @@ export default function HomeFeed() {
               {!debouncedSearch && (
                 <BonusSection
                   isLoggedIn={isLoggedIn}
-                  setShowLoginModal={() => scrollToLogin()}
+                  setShowLoginModal={() => setShowLoginModal(true)}
                   hideHeader={true}
                   variant="carousel"
                 />
@@ -268,7 +353,7 @@ export default function HomeFeed() {
               {!debouncedSearch && (
                 <BonusVIPSection
                   isLoggedIn={isLoggedIn}
-                  setShowLoginModal={() => scrollToLogin()}
+                  setShowLoginModal={() => setShowLoginModal(true)}
                   hideHeader={true}
                   variant="carousel"
                 />
@@ -452,44 +537,6 @@ export default function HomeFeed() {
                   <li>Bônus exclusivos com calculadoras e repositórios 3D.</li>
                   <li>Suporte a PWA para funcionamento offline.</li>
                 </ul>
-              </div>
-
-              {/* Login box inside About tab */}
-              <div className="glass-card rounded-2xl p-5 border border-[#ff7f1a]/30">
-                <div className="flex items-center gap-2 mb-3">
-                  <KeyRound className="w-4 h-4 text-[#ff7f1a]" />
-                  <h3 className="text-xs font-bold uppercase text-zinc-200">Acesso Premium</h3>
-                </div>
-                {isLoggedIn ? (
-                  <div className="space-y-2">
-                    <p className="text-xs text-emerald-400 font-bold">Status: Membro VIP Ativo</p>
-                    <button
-                      onClick={handleLogout}
-                      className="text-xs text-zinc-500 hover:text-red-400 font-bold underline"
-                    >
-                      Sair
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleLogin} className="space-y-3">
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Código: AETHER2026"
-                        value={accessCode}
-                        onChange={(e) => setAccessCode(e.target.value)}
-                        className="flex-1 h-10 bg-zinc-950 border border-white/10 rounded-xl px-3 text-xs text-zinc-200"
-                      />
-                      <button
-                        type="submit"
-                        className="bg-[#ff7f1a] text-zinc-950 text-xs font-bold px-4 rounded-xl"
-                      >
-                        Entrar
-                      </button>
-                    </div>
-                    {loginError && <p className="text-[9px] text-red-400">{loginError}</p>}
-                  </form>
-                )}
               </div>
             </div>
           )}
