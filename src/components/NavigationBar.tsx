@@ -49,10 +49,6 @@ export default function NavigationBar({ activeTab, setActiveTab, favoritesCount 
                   <span className="absolute -top-1.5 -right-2 text-[9px] font-bold text-zinc-950 bg-[#ff7f1a] w-4 h-4 rounded-full flex items-center justify-center border border-zinc-950 animate-pulse">
                     {tab.badge}
                   </span>
-                ) : tab.isVIP ? (
-                  <span className="absolute -top-1.5 -right-3 text-[7px] font-extrabold text-zinc-950 bg-amber-400 px-1 py-0.2 rounded-full border border-zinc-950 animate-bounce">
-                    VIP
-                  </span>
                 ) : null}
               </div>
               
