@@ -41,8 +41,60 @@ export default function HomeFeed() {
 
   // Mock Authentication State
   const [accessCode, setAccessCode] = useState('');
+  const [emailInput, setEmailInput] = useState('');
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginError, setLoginError] = useState('');
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!emailInput.trim() || !emailInput.includes('@')) {
+      setLoginError('Por favor, insira um e-mail válido.');
+      return;
+    }
+    if (accessCode.trim() === 'LUZ3D2526') {
+      setIsLoggedIn(true);
+      setLoginError('');
+      localStorage.setItem('aether_premium_user', 'true');
+      localStorage.setItem('aether_user_email', emailInput.trim());
+      window.dispatchEvent(new Event('storage'));
+      window.dispatchEvent(new Event('auth-change'));
+      setShowLoginModal(false);
+    } else {
+      setLoginError('Código de acesso inválido. Utilize o código LUZ3D2526.');
+    }
+  };
+
+  // Sync login status on mount
+  useEffect(() => {
+    const checkAuth = () => {
+      const isPremium = localStorage.getItem('aether_premium_user');
+      if (isPremium === 'true') {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    checkAuth();
+    window.addEventListener('storage', checkAuth);
+    window.addEventListener('auth-change', checkAuth);
+    return () => {
+      window.removeEventListener('storage', checkAuth);
+      window.removeEventListener('auth-change', checkAuth);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('aether_premium_user');
+    localStorage.removeItem('aether_user_email');
+    window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('auth-change'));
+  };
+
+  const openLoginModal = () => {
+    setShowLoginModal(true);
+  };
 
   // Debounce search query
   useEffect(() => {
@@ -90,32 +142,6 @@ export default function HomeFeed() {
     }, 450);
   };
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (accessCode.trim() === 'AETHER2026') {
-      setIsLoggedIn(true);
-      setLoginError('');
-      localStorage.setItem('aether_premium_user', 'true');
-      window.dispatchEvent(new Event('storage'));
-    } else {
-      setLoginError('Código de acesso inválido. Tente "AETHER2026".');
-    }
-  };
-
-  // Sync login status on mount
-  useEffect(() => {
-    const isPremium = localStorage.getItem('aether_premium_user');
-    if (isPremium === 'true') {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem('aether_premium_user');
-    window.dispatchEvent(new Event('storage'));
-  };
-
   const scrollToLogin = () => {
     setActiveTab('home');
     setTimeout(() => {
@@ -131,7 +157,7 @@ export default function HomeFeed() {
       <div className="w-full max-w-[375px] md:max-w-5xl flex-1 flex flex-col md:px-4">
 
         {/* Header */}
-        <Header />
+        <Header onOpenLoginModal={() => setShowLoginModal(true)} />
 
         <main className="flex-1 flex flex-col px-4 pt-4">
 
@@ -216,38 +242,6 @@ export default function HomeFeed() {
                         />
                       </div>
                     ))}
-
-                    {/* Google Drive Highlight Card */}
-                    <div className="w-[160px] flex-shrink-0">
-                      <a
-                        href="https://drive.google.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="glass-card rounded-2xl overflow-hidden flex flex-col hover:border-[#ff7f1a]/30 active:scale-[0.98] transition-all duration-300 group h-[270px] relative"
-                      >
-                        <div className="w-full h-36 relative bg-gradient-to-br from-zinc-950 to-zinc-900 flex flex-col items-center justify-center p-4 border-b border-white/5">
-                          <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19.38 16.38L24 8.35L14.77 8.35L10.15 16.38L19.38 16.38Z" fill="#FFCC00" />
-                            <path d="M9.23 18.02L4.62 10L13.85 10L18.46 18.02L9.23 18.02Z" fill="#00A859" />
-                            <path d="M14.77 8.35L10.15 0.32L0.92 0.32L5.54 8.35L14.77 8.35Z" fill="#1A73E8" />
-                          </svg>
-                          <span className="text-[8px] font-mono text-zinc-500 mt-2 uppercase tracking-widest">Google Drive</span>
-                        </div>
-                        <div className="p-3 flex-1 flex flex-col justify-between bg-gradient-to-b from-zinc-900/40 to-zinc-950/80">
-                          <div>
-                            <h3 className="text-xs font-bold text-zinc-200 line-clamp-2 leading-tight group-hover:text-[#ff7f1a] transition-colors">
-                              +250 Luminárias no Drive
-                            </h3>
-                            <p className="text-[9px] text-zinc-500 leading-snug mt-1 line-clamp-2">
-                              O restante dos modelos da coleção estão nesta pasta.
-                            </p>
-                          </div>
-                          <div className="text-[9px] text-[#ff7f1a] font-bold mt-auto flex items-center gap-0.5">
-                            Baixar no Drive →
-                          </div>
-                        </div>
-                      </a>
-                    </div>
                   </div>
                 </div>
               )}
@@ -378,60 +372,6 @@ export default function HomeFeed() {
                 </a>
               </div>
 
-              {/* Premium Login / Authentication Panel */}
-              <section id="premium-section" className="glass-card rounded-2xl p-5 mb-8 border-l-[3px] border-l-[#ff7f1a] bg-gradient-to-r from-zinc-900/60 to-zinc-950/20 shadow-xl max-w-[343px] md:max-w-md mx-auto w-full">
-                <div className="flex items-center gap-2 mb-3">
-                  <KeyRound className="w-4 h-4 text-[#ff7f1a]" />
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-200 font-mono">
-                    Assinatura Premium
-                  </h3>
-                </div>
-
-                {isLoggedIn ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold">
-                      <ShieldCheck className="w-4 h-4" />
-                      Acesso Ativo Pro
-                    </div>
-                    <p className="text-[10px] text-zinc-400 leading-relaxed">
-                      Você está logado. Seus links de download de arquivos reais foram autorizados com assinatura criptográfica.
-                    </p>
-                    <button
-                      onClick={handleLogout}
-                      className="text-[10px] text-zinc-500 hover:text-red-400 font-bold underline transition-colors cursor-pointer"
-                    >
-                      Sair da Conta Premium
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleLogin} className="space-y-3">
-                    <p className="text-[10px] text-zinc-400 leading-relaxed">
-                      Insira seu código de acesso premium para autorizar o download dos arquivos reais STL e 3MF.
-                    </p>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Ex: AETHER2026"
-                        value={accessCode}
-                        onChange={(e) => setAccessCode(e.target.value)}
-                        className="flex-1 h-10 bg-zinc-950 border border-white/10 rounded-xl px-3 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-[#ff7f1a]"
-                      />
-                      <button
-                        type="submit"
-                        className="bg-[#ff7f1a] text-zinc-950 text-xs font-bold px-4 rounded-xl hover:bg-orange-400 transition-colors active:scale-95 cursor-pointer"
-                      >
-                        Acessar
-                      </button>
-                    </div>
-                    {loginError && (
-                      <p className="text-[9px] text-red-400 font-medium">{loginError}</p>
-                    )}
-                    <p className="text-[9px] text-zinc-500 font-mono">
-                      * Código de teste: Utilize <strong className="text-[#ff7f1a]">AETHER2026</strong>.
-                    </p>
-                  </form>
-                )}
-              </section>
             </div>
           )}
 
@@ -440,11 +380,11 @@ export default function HomeFeed() {
             <div className="space-y-6 w-full">
               <BonusSection
                 isLoggedIn={isLoggedIn}
-                setShowLoginModal={() => scrollToLogin()}
+                setShowLoginModal={() => setShowLoginModal(true)}
               />
               <BonusVIPSection
                 isLoggedIn={isLoggedIn}
-                setShowLoginModal={() => scrollToLogin()}
+                setShowLoginModal={() => setShowLoginModal(true)}
               />
             </div>
           )}
@@ -468,19 +408,19 @@ export default function HomeFeed() {
                     <Heart className="w-6 h-6" />
                   </div>
                   <h3 className="text-xs font-bold text-zinc-300">Nenhum favorito salvo</h3>
-                  <p className="text-[10px] text-zinc-500 mt-1 max-w-[220px]">
-                    Clique no coração em qualquer luminária para adicioná-la aos seus favoritos.
+                  <p className="text-[10px] text-zinc-500 max-w-[200px] mt-1">
+                    Toque no ícone de coração nas luminárias para salvar seus modelos favoritos aqui.
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {favoritedModelsList.map((model) => (
                     <ModelCard
                       key={model.id}
                       model={model}
-                      isFavorite={true}
+                      isFavorite={isFavorite(model.id)}
                       onToggleFavorite={toggleFavorite}
-                      isLoading={false}
+                      isLoading={!favoritesLoaded}
                     />
                   ))}
                 </div>
@@ -568,14 +508,80 @@ export default function HomeFeed() {
       {activeTab === 'home' && !isLoggedIn && (
         <div className="fixed bottom-16 left-0 right-0 z-40 bg-zinc-950/80 backdrop-blur-md border-t border-white/5 p-4 flex justify-center">
           <button
-            onClick={() => {
-              const premiumSection = document.getElementById('premium-section');
-              premiumSection?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => setShowLoginModal(true)}
             className="w-full max-w-[343px] md:max-w-md h-12 rounded-xl bg-[#ff7f1a] text-zinc-950 text-xs font-black uppercase tracking-widest flex items-center justify-center shadow-lg shadow-orange-500/20 active:scale-[0.98] transition-transform cursor-pointer"
           >
             Quero Meu Acesso
           </button>
+        </div>
+      )}
+
+      {/* LOGIN MODAL */}
+      {showLoginModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]">
+          <div className="w-full max-w-sm bg-zinc-900 border border-cyan-500/30 rounded-2xl p-6 space-y-4 shadow-2xl relative">
+            <button
+              onClick={() => setShowLoginModal(false)}
+              className="absolute top-4 right-4 text-zinc-500 hover:text-zinc-300 text-xs font-bold w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div className="space-y-1 text-center">
+              <div className="w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mx-auto text-cyan-400 mb-2">
+                <KeyRound className="w-6 h-6" />
+              </div>
+              <h3 className="text-sm font-bold text-zinc-100 uppercase tracking-wider">
+                Área de Membros VIP
+              </h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Digite seu e-mail e o código de acesso para entrar.
+              </p>
+            </div>
+
+            <form onSubmit={handleLogin} className="space-y-3 pt-2">
+              <div className="space-y-1">
+                <label className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                  Seu E-mail
+                </label>
+                <input
+                  type="email"
+                  placeholder="exemplo@email.com"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  className="w-full h-10 bg-zinc-950 border border-white/10 rounded-xl px-3 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 transition-colors"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                  Código de Acesso
+                </label>
+                <input
+                  type="text"
+                  placeholder="Ex: LUZ3D2526"
+                  value={accessCode}
+                  onChange={(e) => setAccessCode(e.target.value)}
+                  className="w-full h-10 bg-zinc-950 border border-white/10 rounded-xl px-3 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-cyan-500 transition-colors"
+                />
+              </div>
+
+              {loginError && (
+                <p className="text-[10px] text-red-400 font-medium text-center">{loginError}</p>
+              )}
+
+              <button
+                type="submit"
+                className="w-full h-10 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-zinc-950 font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer shadow-lg shadow-cyan-500/20 active:scale-95"
+              >
+                Acessar Área VIP
+              </button>
+
+              <p className="text-[9px] text-zinc-500 font-mono text-center">
+                * Código de acesso: <strong className="text-cyan-400">LUZ3D2526</strong>
+              </p>
+            </form>
+          </div>
         </div>
       )}
 

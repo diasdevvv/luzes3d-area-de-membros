@@ -203,6 +203,11 @@ export function BonusVIPSection({
   const [isSecretLocked, setIsSecretLocked] = useState<boolean>(true);
   const [showLockedModal, setShowLockedModal] = useState<boolean>(false);
 
+  // 7-Day Top Luminárias Timer Logic
+  const [topTimeRemaining, setTopTimeRemaining] = useState<number>(0);
+  const [isTopLocked, setIsTopLocked] = useState<boolean>(true);
+  const [showTopLockedModal, setShowTopLockedModal] = useState<boolean>(false);
+
   useEffect(() => {
     const FOUR_DAYS_MS = 4 * 24 * 60 * 60 * 1000;
     let unlockTime = localStorage.getItem('bonus_secreto_unlock_timestamp');
@@ -225,6 +230,36 @@ export function BonusVIPSection({
       } else {
         setIsSecretLocked(true);
         setTimeRemaining(diff);
+      }
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+    let unlockTime = localStorage.getItem('bonus_top_luminarias_unlock_timestamp');
+
+    if (!unlockTime) {
+      const futureTime = Date.now() + SEVEN_DAYS_MS;
+      localStorage.setItem('bonus_top_luminarias_unlock_timestamp', futureTime.toString());
+      unlockTime = futureTime.toString();
+    }
+
+    const targetTimestamp = parseInt(unlockTime, 10);
+
+    const updateTimer = () => {
+      const now = Date.now();
+      const diff = targetTimestamp - now;
+
+      if (diff <= 0) {
+        setIsTopLocked(false);
+        setTopTimeRemaining(0);
+      } else {
+        setIsTopLocked(true);
+        setTopTimeRemaining(diff);
       }
     };
 
@@ -406,39 +441,60 @@ export function BonusVIPSection({
           </div>
         </div>
 
-        {/* BONUS 2: +250 Top Luminárias 3D STL */}
+        {/* BONUS 2: Top Luminárias 3D STL (7-DAY LOCK TIMER) */}
         <div className={cardClass}>
           <div className="relative w-full aspect-square bg-zinc-950 overflow-hidden">
             <Image
               src="/images/bonus/bonus-top-luminarias.webp"
-              alt="+250 Top Luminárias 3D STL"
+              alt="Top Luminárias 3D STL"
               fill
-              className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500"
+              className={`object-contain w-full h-full group-hover:scale-105 transition-transform duration-500 ${isTopLocked ? 'grayscale opacity-75' : ''}`}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
-            <span className="absolute top-3 left-3 z-20 text-[9px] font-extrabold uppercase tracking-wider text-amber-300 bg-amber-950/90 border border-amber-500/40 px-2.5 py-1 rounded-md backdrop-blur-md shadow-lg">
-              💡 LUMINÁRIAS PREMIUM
-            </span>
+            
+            {isTopLocked ? (
+              <span className="absolute top-3 left-3 z-20 text-[9px] font-extrabold uppercase tracking-widest text-amber-300 bg-amber-950/90 border border-amber-500/50 px-2.5 py-1 rounded-md backdrop-blur-md shadow-lg flex items-center gap-1 animate-pulse">
+                <Lock className="w-3 h-3 text-amber-400" />
+                DESBLOQUEIA EM {formatTime(topTimeRemaining)}
+              </span>
+            ) : (
+              <span className="absolute top-3 left-3 z-20 text-[9px] font-extrabold uppercase tracking-wider text-amber-300 bg-amber-950/90 border border-amber-500/40 px-2.5 py-1 rounded-md backdrop-blur-md shadow-lg">
+                💡 TOP LUMINÁRIAS
+              </span>
+            )}
           </div>
 
           <div className="p-3.5 flex-1 flex flex-col justify-between space-y-3 bg-gradient-to-b from-zinc-900/60 to-zinc-950">
             <div className="space-y-1">
-              <h3 className="text-xs font-bold text-zinc-100 group-hover:text-amber-400 transition-colors leading-snug">
-                +250 Top Luminárias 3D STL
+              <h3 className="text-xs font-bold text-zinc-100 group-hover:text-amber-400 transition-colors leading-snug flex items-center gap-1">
+                {isTopLocked && <Lock className="w-3.5 h-3.5 text-amber-400" />}
+                Top Luminárias 3D STL
               </h3>
               <p className="text-[10px] text-zinc-400 leading-snug line-clamp-2">
-                Pasta completa no Drive com mais de 250 modelos 3D de luminárias e abajures.
+                {isTopLocked
+                  ? `Acervo no Drive trancado. Será liberado em ${formatTime(topTimeRemaining)}.`
+                  : 'Pasta completa no Drive com mais de 250 modelos 3D de luminárias e abajures.'}
               </p>
             </div>
 
-            <a
-              href="https://drive.google.com/drive/folders/1_WtKIT9raCWa2CP2jIqqVnW6mV6MMfph?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full h-10 rounded-xl bg-amber-500 text-zinc-950 hover:bg-amber-400 text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg shadow-amber-500/10"
-            >
-              Acessar no Drive <ExternalLink className="w-3.5 h-3.5 text-zinc-950" />
-            </a>
+            {isTopLocked ? (
+              <button
+                onClick={() => setShowTopLockedModal(true)}
+                className="w-full h-10 rounded-xl bg-zinc-800/80 border border-amber-500/40 text-amber-400 text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 hover:bg-zinc-800 transition-all cursor-pointer"
+              >
+                <Lock className="w-3.5 h-3.5 text-amber-400" />
+                Trancado (Libera em 7 Dias)
+              </button>
+            ) : (
+              <a
+                href="https://drive.google.com/drive/folders/1_WtKIT9raCWa2CP2jIqqVnW6mV6MMfph?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full h-10 rounded-xl bg-amber-500 text-zinc-950 hover:bg-amber-400 text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg shadow-amber-500/10"
+              >
+                Acessar no Drive <ExternalLink className="w-3.5 h-3.5 text-zinc-950" />
+              </a>
+            )}
           </div>
         </div>
 
@@ -984,6 +1040,35 @@ export function BonusVIPSection({
 
             <button
               onClick={() => setShowLockedModal(false)}
+              className="w-full py-2.5 rounded-xl bg-amber-500 text-zinc-950 text-xs font-bold hover:bg-amber-400 transition-colors cursor-pointer"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: Bônus Top Luminárias 3D STL Trancado */}
+      {showTopLockedModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]">
+          <div className="w-full max-w-sm bg-zinc-900 border border-amber-500/40 rounded-2xl p-5 space-y-4 text-center shadow-2xl relative">
+            <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center mx-auto text-amber-400">
+              <Lock className="w-6 h-6" />
+            </div>
+            
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-zinc-100">Top Luminárias 3D STL Trancado</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Este acervo exclusivo com mais de <strong className="text-amber-400">250 modelos 3D no Drive</strong> é liberado automaticamente 7 dias após seu primeiro acesso!
+              </p>
+            </div>
+
+            <div className="p-3 rounded-xl bg-zinc-950 border border-amber-500/30 font-mono text-amber-400 font-bold text-xs">
+              ⏳ Libera em: {formatTime(topTimeRemaining)}
+            </div>
+
+            <button
+              onClick={() => setShowTopLockedModal(false)}
               className="w-full py-2.5 rounded-xl bg-amber-500 text-zinc-950 text-xs font-bold hover:bg-amber-400 transition-colors cursor-pointer"
             >
               Entendido
