@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# build-generated downloads
+/public/downloads/
+
 # production
 /build
 

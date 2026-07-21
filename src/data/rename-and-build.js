@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const JSZip = require('jszip');
 
 const baseDir = path.join(__dirname, '../../public/top luminarias');
 
@@ -306,3 +307,87 @@ console.log(`✅ Catálogo reconstruído com sucesso!`);
 console.log(`- 15 Luminárias com Download Direto ZIP Local configuradas.`);
 console.log(`- ${models.length - 15} Luminárias configuradas para redirecionar para o Google Drive.`);
 console.log(`========================================\n`);
+
+// === STEP 2: Generate ZIP files for local download models ===
+const downloadsDir = path.join(__dirname, '../../public/downloads');
+if (!fs.existsSync(downloadsDir)) {
+  fs.mkdirSync(downloadsDir, { recursive: true });
+}
+
+async function createZipForFolder(folderPath, outputPath, fileFilter) {
+  const zip = new JSZip();
+  function addFiles(dir, zipFolder) {
+    const list = fs.readdirSync(dir);
+    for (const item of list) {
+      if (item === '.DS_Store' || item.startsWith('._')) continue;
+      const itemPath = path.join(dir, item);
+      const stat = fs.statSync(itemPath);
+      if (stat.isDirectory()) {
+        const subZip = zipFolder.folder(item);
+        if (subZip) addFiles(itemPath, subZip);
+      } else {
+        if (!fileFilter || fileFilter(item)) {
+          zipFolder.file(item, fs.readFileSync(itemPath));
+        }
+      }
+    }
+  }
+  addFiles(folderPath, zip);
+  const buffer = await zip.generateAsync({
+    type: 'nodebuffer',
+    compression: 'DEFLATE',
+    compressionOptions: { level: 6 }
+  });
+  fs.writeFileSync(outputPath, buffer);
+}
+
+async function buildZips() {
+  let zippedModels = 0;
+  let zippedBases = 0;
+
+  // ZIPs for local download luminárias
+  for (const model of models) {
+    if (!model.isDriveOnly) {
+      const folderPath = path.join(baseDir, model.pastaOriginal);
+      const zipPath = path.join(downloadsDir, `${model.id}.zip`);
+      await createZipForFolder(folderPath, zipPath, (file) => {
+        return /\.(stl|3mf|pdf|txt)$/i.test(file);
+      });
+      zippedModels++;
+    }
+  }
+
+  // ZIPs for printable bases
+  const basesDir = path.join(__dirname, '../../public/bases imprimiveis');
+  const basesToZip = [
+    { id: "base-e27-moon", folder: "E27 socket Base for Moon Lamp by LeHa Design" },
+    { id: "base-e14-compacta", folder: "E14 Base" },
+    { id: "base-led-rock", folder: "Rock base LED for Lamp Moon" },
+    { id: "base-e27-lamp2", folder: "Base e27 LAMP 2.0" },
+    { id: "base-e27-roscada", folder: "LAMP BASE FOR E27 SUPPORT" },
+    { id: "base-wavy-e27", folder: "Wavy+Lamp+-+E27+E26+Base+-+PETG" },
+    { id: "base-waveglow", folder: "WaveGlow Lamp" }
+  ];
+
+  for (const base of basesToZip) {
+    const folderPath = path.join(basesDir, base.folder);
+    if (fs.existsSync(folderPath)) {
+      const zipPath = path.join(downloadsDir, `${base.id}.zip`);
+      await createZipForFolder(folderPath, zipPath, (file) => {
+        return /\.(stl|3mf|pdf|txt)$/i.test(file);
+      });
+      zippedBases++;
+    }
+  }
+
+  console.log(`\n========================================`);
+  console.log(`✅ ZIPs gerados com sucesso!`);
+  console.log(`- ${zippedModels} ZIPs de Luminárias gerados em /public/downloads/`);
+  console.log(`- ${zippedBases} ZIPs de Bases gerados em /public/downloads/`);
+  console.log(`========================================\n`);
+}
+
+buildZips().catch(err => {
+  console.error("Erro ao gerar ZIPs:", err);
+  process.exit(1);
+});
