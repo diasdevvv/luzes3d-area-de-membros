@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build && npx next export"
+  publish = "out"
+
+default_headers = []
+
+# Desabilita funções serverless do Next.js (pois é 100% estático)
+[functions]
+  node_bundler = "esbuild"
